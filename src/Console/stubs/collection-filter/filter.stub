@@ -1,0 +1,23 @@
+<?php
+
+namespace {{classNamespace}};
+
+use Throwable;
+use {{baseClassNamespace}};
+use Illuminate\Support\Collection;
+
+class {{class}}{{suffix}} extends {{baseClassName}} {
+
+    /**
+     * Retrieve the rules to validate filters value.
+     * If a filter validation fails, the filter is not applied.
+     *
+     * @return array
+     */
+    protected function getRules() {
+        
+        return [];
+    }
+
+    {{methods}}
+}

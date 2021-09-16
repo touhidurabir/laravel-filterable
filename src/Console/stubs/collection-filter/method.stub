@@ -1,0 +1,13 @@
+
+    /**
+     * Filter by {{method}}
+     *
+     * @param  object $item
+     * @param  mixed  $value
+     *
+     * @return
+     */
+    public function {{method}}($item, $value) {
+
+        // return ;
+    }

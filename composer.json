@@ -1,0 +1,42 @@
+{
+    "name": "touhidurabir/laravel-filterable",
+    "description": "A package to filter laravel model based on query params or retrieved model collection",
+    "type": "library",
+    "license": "MIT",
+    "autoload": {
+        "psr-4": {
+            "Touhidurabir\\Filterable\\": "src/"
+        }
+    },
+    "autoload-dev" : {
+        "psr-4" : {
+            "Touhidurabir\\Filterable\\Tests\\": "tests/"
+        }
+    },
+    "authors": [
+        {
+            "name": "Touhidur Rahman",
+            "email": "abircse06@gmail.com"
+        }
+    ],
+    "require": {
+        "php": ">=7.4.0",
+        "touhidurabir/laravel-stub-generator": "^1.0",
+        "illuminate/support": "^8.60",
+        "illuminate/console": "^8.60",
+        "illuminate/http": "^8.60"
+    },
+    "require-dev": {
+        "phpunit/phpunit": "^9.5",
+        "orchestra/testbench": "^6.21",
+        "illuminate/container": "^8.60",
+        "illuminate/database": "^8.60"
+    },
+    "extra": {
+        "laravel": {
+            "providers": [
+                "Touhidurabir\\Filterable\\FilterableServiceProvider"
+            ]
+        }
+    }
+}

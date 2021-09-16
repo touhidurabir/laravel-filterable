@@ -1,0 +1,11 @@
+
+    /**
+     * Filter by request param {{method}}
+     *
+     * @param  mixed $value
+     * @return object<\Illuminate\Database\Eloquent\Builder>
+     */
+    public function {{method}}($value) {
+
+        // return $this->builder-> ;
+    }
