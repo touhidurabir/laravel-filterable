@@ -4,7 +4,10 @@ namespace Touhidurabir\Filterable\Tests;
 
 use PHPUnit\Framework\Attributes\Test;
 use Orchestra\Testbench\TestCase;
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\File;
+use Illuminate\Database\Eloquent\Builder;
+use Touhidurabir\Filterable\Tests\App\User;
 use Touhidurabir\Filterable\Tests\Traits\FileHelpers;
 use Touhidurabir\Filterable\Tests\Traits\LaravelTestBootstrapping;
 
@@ -154,6 +157,25 @@ class CommandTest extends TestCase
 
         $this->assertTrue(File::exists($this->filterStoreFullPath['query'] . 'TestQueryFilter.php'));
         $this->assertTrue(File::exists($this->filterStoreFullPath['collection'] . 'TestCollectionFilter.php'));
+    }
+
+
+    /**
+     * @test
+     */
+    #[Test]
+    public function generated_query_filter_methods_accept_an_empty_filter_value()
+    {
+
+        $this->artisan('make:filter EmptyValue --filters=name --only-query')->assertExitCode(0);
+
+        require_once $this->filterStoreFullPath['query'] . 'EmptyValueQueryFilter.php';
+
+        $filter = (new \App\QueryFilters\EmptyValueQueryFilter())->setRequest(new Request(['name' => '']));
+
+        // An empty value calls the filter method without an argument, so the
+        // generated method must not require one.
+        $this->assertInstanceOf(Builder::class, $filter->apply(User::query()));
     }
 
 }

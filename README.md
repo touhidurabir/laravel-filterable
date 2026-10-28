@@ -69,12 +69,12 @@ php artisan make:filter User --filter=name,email
 For Query FIlter : 
 
 ```php
-public function name($value) {
+public function name($value = null) {
 
     // return $this->builder->;
 }
 
-public function email($value) {
+public function email($value = null) {
 
     // return $this->builder->;
 }
@@ -155,7 +155,7 @@ class UserQueryFilter extends BaseQueryFilter {
      * @param  mixed $value
      * @return object<\Illuminate\Database\Eloquent\Builder>
      */
-    public function name($value) {
+    public function name($value = null) {
 
         // return $this->builder->;
     }
@@ -167,7 +167,7 @@ class UserQueryFilter extends BaseQueryFilter {
      * @param  mixed $value
      * @return object<\Illuminate\Database\Eloquent\Builder>
      */
-    public function email($value) {
+    public function email($value = null) {
 
         // return $this->builder->;
     }
@@ -283,6 +283,8 @@ protected function getRules() {
 ```
 
 Set the validation rules there and those params that do not pass the validation will not be applied.
+
+> Note that when a filter param is present but empty (e.g. `?name=`), the query filter method is called **without** an argument. That is why the generated query filter methods declare `$value = null`. If you write the methods by hand, give the `$value` parameter a default value too.
 
 ## WHY a Collection Filter ?
 
