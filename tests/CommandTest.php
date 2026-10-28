@@ -5,6 +5,10 @@ namespace Touhidurabir\Filterable\Tests;
 use PHPUnit\Framework\Attributes\Test;
 use Orchestra\Testbench\TestCase;
 use Illuminate\Http\Request;
+use Illuminate\Console\OutputStyle;
+use Symfony\Component\Console\Input\ArrayInput;
+use Symfony\Component\Console\Output\BufferedOutput;
+use Touhidurabir\Filterable\Console\FilterGenerator;
 use Illuminate\Support\Facades\File;
 use Illuminate\Database\Eloquent\Builder;
 use Touhidurabir\Filterable\Tests\App\User;
@@ -176,6 +180,28 @@ class CommandTest extends TestCase
         // An empty value calls the filter method without an argument, so the
         // generated method must not require one.
         $this->assertInstanceOf(Builder::class, $filter->apply(User::query()));
+    }
+
+
+    /**
+     * @test
+     */
+    #[Test]
+    public function filter_command_handle_returns_an_explicit_exit_code()
+    {
+
+        $command = $this->app->make(FilterGenerator::class);
+        $command->setLaravel($this->app);
+
+        $input = new ArrayInput(['class' => 'ExitCode', '--only-query' => true], $command->getDefinition());
+
+        $command->setInput($input);
+        $command->setOutput(new OutputStyle($input, new BufferedOutput()));
+
+        $this->assertSame(FilterGenerator::SUCCESS, $command->handle());
+
+        // The class now exists and --replace is not given, so generation fails.
+        $this->assertSame(FilterGenerator::FAILURE, $command->handle());
     }
 
 }

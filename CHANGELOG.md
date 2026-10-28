@@ -12,6 +12,7 @@ All notable changes to this project will be documented in this file.
 - Fixed `ArgumentCountError` for an empty filter param (e.g. `?name=`): `make:filter` now generates query filter methods as `{method}($value = null)`. Existing generated filter classes are not changed; add the `= null` default to their methods by hand.
 - Fixed the README examples to use the `--filters=` option (they showed `--filter=`, which `make:filter` rejects).
 - Fixed `BaseQueryFilter::filterables()` failing with "Call to a member function get() on null" when no request was passed to the filter; it now resolves the current request like `apply()` does.
+- `make:filter` now returns an explicit exit code (`Command::SUCCESS` / `Command::FAILURE`) from `handle()` instead of `null` on success. The process exit code is unchanged.
 
 
 ## [1.0.0] - 2021-09-16
