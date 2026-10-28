@@ -4,6 +4,7 @@ namespace Touhidurabir\Filterable\Tests;
 
 use PHPUnit\Framework\Attributes\Test;
 use Exception;
+use Illuminate\Http\Request;
 use Orchestra\Testbench\TestCase;
 use Illuminate\Support\Facades\DB;
 use Touhidurabir\Filterable\Tests\App\User;
@@ -152,6 +153,22 @@ class QueryFilterTest extends TestCase
         $this->expectException(Exception::class);
 
         $users = User::filter(new class () {})->get();
+    }
+
+
+    /**
+     * @test
+     */
+    #[Test]
+    public function filterables_resolves_the_request_when_none_was_injected()
+    {
+
+        $this->app->instance('request', Request::create('/users', 'GET', ['name' => 'Test']));
+
+        $this->assertSame(
+            ['name' => 'Test', 'email' => null],
+            (new UserQueryFilter())->filterables()
+        );
     }
 
 }

@@ -81,7 +81,7 @@ abstract class BaseQueryFilter
 
             if ($method->class === $reflection->getName()) {
 
-                $filterables[$method->name] = $this->request->get($method->name);
+                $filterables[$method->name] = $this->getRequest()->get($method->name);
             }
         }
 
