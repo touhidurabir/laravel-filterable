@@ -2,6 +2,12 @@
 All notable changes to this project will be documented in this file.
 
 ## [Unreleased]
+
+
+## [1.0.0] - 2021-09-16
+- Initial release
+
+## [1.1.0] - 2026-10-28
 - Laravel 11, 12 and 13 support added (`illuminate/support`, `illuminate/console` and `illuminate/http` constraints widened).
 - PHPUnit 10, 11 and 12 support for tests; test methods now use `#[Test]` attributes alongside the `@test` annotations.
 - Fixed PHP 8.4 implicit nullable parameter deprecations in `FilterBaseSetup::__construct`, `CommandExceptionHandler::outputConsoleException` and the `make:filter` command.
@@ -13,7 +19,3 @@ All notable changes to this project will be documented in this file.
 - Fixed the README examples to use the `--filters=` option (they showed `--filter=`, which `make:filter` rejects).
 - Fixed `BaseQueryFilter::filterables()` failing with "Call to a member function get() on null" when no request was passed to the filter; it now resolves the current request like `apply()` does.
 - `make:filter` now returns an explicit exit code (`Command::SUCCESS` / `Command::FAILURE`) from `handle()` instead of `null` on success. The process exit code is unchanged.
-
-
-## [1.0.0] - 2021-09-16
-- Initial release
