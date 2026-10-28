@@ -44,7 +44,7 @@ abstract class BaseQueryFilter {
 
             is_array($value)
                 ? $this->$filter($value)
-                : ( strlen($value) ? $this->$filter($value) : $this->$filter() );
+                : ( strlen((string) $value) ? $this->$filter($value) : $this->$filter() );
         }
 
         return $this->builder;

@@ -2,6 +2,7 @@
 
 namespace Touhidurabir\Filterable\Tests;
 
+use PHPUnit\Framework\Attributes\Test;
 use Orchestra\Testbench\TestCase;
 use Illuminate\Support\Facades\File;
 use Touhidurabir\Filterable\Tests\Traits\FileHelpers;
@@ -73,6 +74,7 @@ class CommandTest extends TestCase {
     /**
      * @test
      */
+    #[Test]
     public function filter_command_will_run() {
         
         $this->artisan('make:filter User')->assertExitCode(0);
@@ -84,6 +86,7 @@ class CommandTest extends TestCase {
     /**
      * @test
      */
+    #[Test]
     public function filter_command_will_generate_proper_filter_class_files() {
         
         $this->artisan('make:filter User')->assertExitCode(0);
@@ -96,6 +99,7 @@ class CommandTest extends TestCase {
     /**
      * @test
      */
+    #[Test]
     public function filter_command_will_replace_existing_files_if_instructed() {
         
         $this->artisan('make:filter User')->assertExitCode(0);
@@ -110,6 +114,7 @@ class CommandTest extends TestCase {
     /**
      * @test
      */
+    #[Test]
     public function filter_command_will_generate_file_with_proper_name_if_no_suffix_instructed() {
         
         $this->artisan('make:filter User --no-suffix')->assertExitCode(0);
@@ -125,6 +130,7 @@ class CommandTest extends TestCase {
     /**
      * @test
      */
+    #[Test]
     public function filter_command_will_generate_only_instructed_type_filter_class() {
         
         $this->artisan('make:filter User --only-query')->assertExitCode(0);

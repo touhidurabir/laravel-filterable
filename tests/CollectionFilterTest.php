@@ -2,6 +2,7 @@
 
 namespace Touhidurabir\Filterable\Tests;
 
+use PHPUnit\Framework\Attributes\Test;
 use Exception;
 use Orchestra\Testbench\TestCase;
 use Illuminate\Support\Facades\DB;
@@ -93,6 +94,7 @@ class CollectionFilterTest extends TestCase {
     /**
      * @test
      */
+    #[Test]
     public function the_collection_filter_class_can_be_initialized() {
 
         $this->assertIsObject(new UserCollectionFilter);
@@ -106,6 +108,7 @@ class CollectionFilterTest extends TestCase {
     /**
      * @test
      */
+    #[Test]
     public function the_collection_filter_class_can_filter_collection_data() {
 
         $users = (new UserCollectionFilter)->filter(User::all(), ['email'=>'testser1@test.test']);
@@ -122,6 +125,7 @@ class CollectionFilterTest extends TestCase {
     /**
      * @test
      */
+    #[Test]
     public function the_collection_filter_class_can_filter_collection_data_via_static_method() {
 
         $users = UserCollectionFilter::applyFilter(User::all(), ['email'=>'testser1@test.test']);
@@ -135,6 +139,7 @@ class CollectionFilterTest extends TestCase {
     /**
      * @test
      */
+    #[Test]
     public function the_collection_filter_class_can_validate_filter_collection_data_before_filtering() {
 
         $users = UserCollectionFilter::applyFilter(User::all(), ['email'=>'testser1']);

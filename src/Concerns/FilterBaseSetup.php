@@ -21,7 +21,7 @@ trait FilterBaseSetup {
      * @param  object<\Illuminate\Http\Request>|null $request
      * @return void
      */
-    public function __construct(Request $request = null) {
+    public function __construct(?Request $request = null) {
 
         $this->request = $request;
     }

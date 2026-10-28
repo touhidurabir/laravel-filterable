@@ -171,9 +171,9 @@ class FilterGenerator extends Command {
      * 
      * @return string 
      */
-    private function generateFilterMethodsFromStub(string $stubRelativePath, string $filters = null) {
+    private function generateFilterMethodsFromStub(string $stubRelativePath, ?string $filters = null) {
 
-        $filters = array_filter(array_map('trim', explode(',', $filters)));
+        $filters = array_filter(array_map('trim', explode(',', (string) $filters)));
 
         if ( empty($filters) ) {
 

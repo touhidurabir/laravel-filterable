@@ -2,6 +2,7 @@
 
 namespace Touhidurabir\Filterable\Tests;
 
+use PHPUnit\Framework\Attributes\Test;
 use Exception;
 use Orchestra\Testbench\TestCase;
 use Illuminate\Support\Facades\DB;
@@ -93,6 +94,7 @@ class QueryFilterTest extends TestCase {
     /**
      * @test
      */
+    #[Test]
     public function the_query_filter_class_can_be_initialized() {
 
         $this->assertIsObject(new UserQueryFilter);
@@ -106,6 +108,7 @@ class QueryFilterTest extends TestCase {
     /**
      * @test
      */
+    #[Test]
     public function the_query_filter_class_can_filter_data() {
 
         $users = User::filter( UserQueryFilter::hydrate(['email'=>'testser1@test.test']) )->get();
@@ -125,6 +128,7 @@ class QueryFilterTest extends TestCase {
     /**
      * @test
      */
+    #[Test]
     public function the_query_filter_class_can_validate_filter_data_before_filtering() {
 
         $users = User::filter( UserQueryFilter::hydrate(['email'=>'testser1']) )->get();
@@ -135,6 +139,7 @@ class QueryFilterTest extends TestCase {
     /**
      * @test
      */
+    #[Test]
     public function it_will_throw_exception_if_wrong_filter_instance_given() {
 
         $this->expectException(Exception::class);
