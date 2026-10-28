@@ -8,6 +8,7 @@ All notable changes to this project will be documented in this file.
 - Fixed PHP 8.1+ `explode()` null argument deprecation in `make:filter` when no `--filters` option is given.
 - Fixed PHP 8.1+ `strlen()` null argument deprecation in `BaseQueryFilter::apply` when a filter value is `null` (e.g. an empty query param converted by `ConvertEmptyStringsToNull`).
 - Code style formatted to PSR-12 with Laravel Pint (`composer format` / `composer lint`).
+- Replaced Travis CI with GitHub Actions (PHP 8.2–8.4 × Laravel 11/12/13, plus a code style check).
 
 
 ## [1.0.0] - 2021-09-16
