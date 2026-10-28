@@ -10,6 +10,7 @@ All notable changes to this project will be documented in this file.
 - Code style formatted to PSR-12 with Laravel Pint (`composer format` / `composer lint`).
 - Replaced Travis CI with GitHub Actions (PHP 8.2–8.4 × Laravel 11/12/13, plus a code style check).
 - Fixed `ArgumentCountError` for an empty filter param (e.g. `?name=`): `make:filter` now generates query filter methods as `{method}($value = null)`. Existing generated filter classes are not changed; add the `= null` default to their methods by hand.
+- Fixed the README examples to use the `--filters=` option (they showed `--filter=`, which `make:filter` rejects).
 
 
 ## [1.0.0] - 2021-09-16

@@ -64,7 +64,7 @@ This command also includes several handful options to make the filer class gener
 By passign comma separated filters, it will put those filters as filterable method in both the query and collection filter class as : 
 
 ```bash
-php artisan make:filter User --filter=name,email
+php artisan make:filter User --filters=name,email
 ```
 For Query FIlter : 
 
@@ -123,7 +123,7 @@ If passed as switch option or flag, will replace the existing file. By defalt if
 Generate the filters as 
 
 ```bash
-php artisan make:filter User --filter=name,email
+php artisan make:filter User --filters=name,email
 ```
 it will generate **UserQueryFilter.php** and **UserCollectionFilter.php** class at the given path as :
 
