@@ -2,24 +2,25 @@
 
 namespace Touhidurabir\Filterable\Bases;
 
-use Throwable;
 use Illuminate\Support\Collection;
 use Touhidurabir\Filterable\Concerns\FilterBaseSetup;
 use Touhidurabir\Filterable\Concerns\FilterValidator;
 
-abstract class BaseCollectionFilter {
-
-    use FilterBaseSetup, FilterValidator;
+abstract class BaseCollectionFilter
+{
+    use FilterBaseSetup;
+    use FilterValidator;
 
     /**
      * Apply the filters to the collection.
      *
      * @param  object<\Illuminate\Support\Collection>   $collections
      * @param  array                                    $filterables
-     * 
+     *
      * @return object<\Illuminate\Support\Collection>
      */
-    public function filter(Collection $collections, array $filterables = []) {
+    public function filter(Collection $collections, array $filterables = [])
+    {
 
         $filters = $this->filters($filterables);
 
@@ -29,14 +30,14 @@ abstract class BaseCollectionFilter {
 
             $applicable = true;
 
-            foreach ( $filters as $filter => $value ) {
+            foreach ($filters as $filter => $value) {
 
                 if (! method_exists($self, $filter)) {
 
                     continue;
                 }
 
-                if ( !empty($self->getRules()) && !$self->validateFilter($filter, $value) ) {
+                if (!empty($self->getRules()) && !$self->validateFilter($filter, $value)) {
 
                     continue;
                 }
@@ -54,8 +55,9 @@ abstract class BaseCollectionFilter {
      *
      * @return array
      */
-    public function filters(array $filterables = []) {
-    	
+    public function filters(array $filterables = [])
+    {
+
         return empty($filterables) ? (optional($this->getRequest())->all() ?? []) : $filterables;
     }
 
@@ -65,12 +67,13 @@ abstract class BaseCollectionFilter {
      *
      * @param  object<\Illuminate\Support\Collection>   $collections
      * @param  array                                    $filterables
-     * 
+     *
      * @return object<\Illuminate\Support\Collection>
      */
-    public static function applyFilter(Collection $collections, array $filterables = []) {
+    public static function applyFilter(Collection $collections, array $filterables = [])
+    {
 
-        return (new static)->filter($collections, $filterables);
+        return (new static())->filter($collections, $filterables);
     }
 
 }

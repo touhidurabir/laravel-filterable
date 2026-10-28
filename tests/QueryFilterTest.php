@@ -13,8 +13,8 @@ use Touhidurabir\Filterable\Tests\Traits\LaravelTestBootstrapping;
 use Touhidurabir\Filterable\Tests\App\QueryFilters\UserQueryFilter;
 use Touhidurabir\Filterable\Tests\App\QueryFilters\ProfileQueryFilter;
 
-class QueryFilterTest extends TestCase {
-    
+class QueryFilterTest extends TestCase
+{
     use LaravelTestBootstrapping;
 
     /**
@@ -39,7 +39,8 @@ class QueryFilterTest extends TestCase {
      *
      * @return void
      */
-    protected function setUp(): void {
+    protected function setUp(): void
+    {
 
         parent::setUp();
 
@@ -55,10 +56,11 @@ class QueryFilterTest extends TestCase {
      *
      * @return void
      */
-    protected function defineDatabaseMigrations() {
+    protected function defineDatabaseMigrations()
+    {
 
         $this->loadMigrationsFrom(__DIR__ . '/App/database/migrations');
-        
+
         $this->artisan('migrate', ['--database' => 'testbench'])->run();
 
         $this->beforeApplicationDestroyed(function () {
@@ -74,7 +76,8 @@ class QueryFilterTest extends TestCase {
      * @param  Illuminate\Foundation\Application $app
      * @return void
      */
-    protected function defineEnvironment($app) {
+    protected function defineEnvironment($app)
+    {
 
         // Setup default database to use sqlite :memory:
         $app['config']->set('database.default', 'testbench');
@@ -95,13 +98,14 @@ class QueryFilterTest extends TestCase {
      * @test
      */
     #[Test]
-    public function the_query_filter_class_can_be_initialized() {
+    public function the_query_filter_class_can_be_initialized()
+    {
 
-        $this->assertIsObject(new UserQueryFilter);
-        $this->assertIsObject(new ProfileQueryFilter);
+        $this->assertIsObject(new UserQueryFilter());
+        $this->assertIsObject(new ProfileQueryFilter());
 
-        $this->assertInstanceof(BaseQueryFilter::class, new UserQueryFilter);
-        $this->assertInstanceof(BaseQueryFilter::class, new ProfileQueryFilter);
+        $this->assertInstanceof(BaseQueryFilter::class, new UserQueryFilter());
+        $this->assertInstanceof(BaseQueryFilter::class, new ProfileQueryFilter());
     }
 
 
@@ -109,12 +113,13 @@ class QueryFilterTest extends TestCase {
      * @test
      */
     #[Test]
-    public function the_query_filter_class_can_filter_data() {
+    public function the_query_filter_class_can_filter_data()
+    {
 
-        $users = User::filter( UserQueryFilter::hydrate(['email'=>'testser1@test.test']) )->get();
+        $users = User::filter(UserQueryFilter::hydrate(['email' => 'testser1@test.test']))->get();
         $this->assertCount(1, $users);
 
-        $users = User::filter( UserQueryFilter::hydrate(['name'=>'Test']) )->get();
+        $users = User::filter(UserQueryFilter::hydrate(['name' => 'Test']))->get();
         $this->assertCount(2, $users);
 
         $profiles = Profile::filter(ProfileQueryFilter::hydrate(['first_name' => 'Test']))->get();
@@ -129,9 +134,10 @@ class QueryFilterTest extends TestCase {
      * @test
      */
     #[Test]
-    public function the_query_filter_class_can_validate_filter_data_before_filtering() {
+    public function the_query_filter_class_can_validate_filter_data_before_filtering()
+    {
 
-        $users = User::filter( UserQueryFilter::hydrate(['email'=>'testser1']) )->get();
+        $users = User::filter(UserQueryFilter::hydrate(['email' => 'testser1']))->get();
         $this->assertCount(2, $users);
     }
 
@@ -140,11 +146,12 @@ class QueryFilterTest extends TestCase {
      * @test
      */
     #[Test]
-    public function it_will_throw_exception_if_wrong_filter_instance_given() {
+    public function it_will_throw_exception_if_wrong_filter_instance_given()
+    {
 
         $this->expectException(Exception::class);
 
-        $users = User::filter( new class {} )->get();
+        $users = User::filter(new class () {})->get();
     }
-    
+
 }

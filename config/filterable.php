@@ -8,7 +8,7 @@ return [
     |--------------------------------------------------------------------------
     |
     | The base filterable classes that will be extended by all all other generated
-    | query filter classes and collection filter classes . 
+    | query filter classes and collection filter classes .
     |
     */
 
@@ -23,7 +23,7 @@ return [
     | Path/location namespace to save filter classes
     |--------------------------------------------------------------------------
     |
-    | location where to store the query/collection filter classes to save/store. 
+    | location where to store the query/collection filter classes to save/store.
     |
     */
 

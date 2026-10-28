@@ -5,9 +5,9 @@ namespace Touhidurabir\Filterable;
 use Exception;
 use Illuminate\Database\Eloquent\Builder;
 
-trait Filterable {
-
-	/**
+trait Filterable
+{
+    /**
      * Filter a result set.
      *
      * @param  object<\Illuminate\Database\Eloquent\Builder> 	$query
@@ -15,15 +15,16 @@ trait Filterable {
      *
      * @return object<\Illuminate\Database\Eloquent\Builder>
      */
-	public function scopeFilter(Builder $query, $filters) {
+    public function scopeFilter(Builder $query, $filters)
+    {
 
         $baseQueryFilterClass = config('filterable.base_class.query');
 
-        if ( ! ($filters instanceof $baseQueryFilterClass) ) {
+        if (! ($filters instanceof $baseQueryFilterClass)) {
 
             throw new Exception('$filters is not a proper instance of ' . $baseQueryFilterClass);
         }
 
-		return $filters->apply($query);
-	}
+        return $filters->apply($query);
+    }
 }

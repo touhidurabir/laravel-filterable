@@ -5,8 +5,8 @@ namespace Touhidurabir\Filterable\Concerns;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Request as RequestFacade;
 
-trait FilterBaseSetup {
-
+trait FilterBaseSetup
+{
     /**
      * The request object.
      *
@@ -21,7 +21,8 @@ trait FilterBaseSetup {
      * @param  object<\Illuminate\Http\Request>|null $request
      * @return void
      */
-    public function __construct(?Request $request = null) {
+    public function __construct(?Request $request = null)
+    {
 
         $this->request = $request;
     }
@@ -33,22 +34,24 @@ trait FilterBaseSetup {
      * @param  object<\Illuminate\Http\Request> $request
      * @return self
      */
-    public function setRequest(Request $request) {
+    public function setRequest(Request $request)
+    {
 
         $this->request = $request;
 
         return $this;
     }
-    
+
 
     /**
      * Retrieve the request that query filters are based on
      *
      * @return object<\Illuminate\Http\Request>
      */
-    public function getRequest() {
+    public function getRequest()
+    {
 
-        if ( ! $this->request ) {
+        if (! $this->request) {
 
             $this->request = RequestFacade::instance();
         }
@@ -63,8 +66,9 @@ trait FilterBaseSetup {
      * @param  array $queries
      * @return static
      */
-    public static function hydrate(array $queries) {
-        
+    public static function hydrate(array $queries)
+    {
+
         $request = new Request($queries);
 
         return (new static())->setRequest($request);

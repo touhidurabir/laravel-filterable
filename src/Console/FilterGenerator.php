@@ -10,10 +10,10 @@ use Touhidurabir\StubGenerator\StubGenerator;
 use Touhidurabir\StubGenerator\Concerns\NamespaceResolver;
 use Touhidurabir\Filterable\Console\Concerns\CommandExceptionHandler;
 
-class FilterGenerator extends Command {
-
+class FilterGenerator extends Command
+{
     use NamespaceResolver;
-    
+
     /**
      * Process the handeled exception and provide output
      */
@@ -74,8 +74,9 @@ class FilterGenerator extends Command {
      *
      * @return void
      */
-    public function __construct() {
-        
+    public function __construct()
+    {
+
         parent::__construct();
     }
 
@@ -85,29 +86,30 @@ class FilterGenerator extends Command {
      *
      * @return mixed
      */
-    public function handle() {
-        
+    public function handle()
+    {
+
         $this->info('Generating Filter class');
 
         try {
 
-            foreach( $this->generateableFilters() as $type => $generateable ) {
+            foreach ($this->generateableFilters() as $type => $generateable) {
 
-                if ( ! $generateable ) {
+                if (! $generateable) {
 
                     continue;
                 }
 
-                if ( $this->generateFilter($type) ) {
+                if ($this->generateFilter($type)) {
 
                     $this->info("{$type} filter class generated successfully");
                 }
             }
-            
+
         } catch (Throwable $exception) {
 
             // ray($exception);
-            
+
             $this->outputConsoleException($exception);
 
             return 1;
@@ -121,7 +123,8 @@ class FilterGenerator extends Command {
      * @param  string $stubRelativePath
      * @return string
      */
-    private function generateFullPathOfStubFile(string $stubRelativePath) {
+    private function generateFullPathOfStubFile(string $stubRelativePath)
+    {
 
         return __DIR__ . $stubRelativePath;
     }
@@ -133,22 +136,24 @@ class FilterGenerator extends Command {
      * @param  string $type
      * @return bool
      */
-    private function generateFilter(string $type) {
+    private function generateFilter(string $type)
+    {
 
-        return (new StubGenerator)
-                    ->from( $this->generateFullPathOfStubFile($this->stubPaths[$type]['filter']), true )
-                    ->to( 
+        return (new StubGenerator())
+                    ->from($this->generateFullPathOfStubFile($this->stubPaths[$type]['filter']), true)
+                    ->to(
                         $this->generateFilePathFromNamespace(
                             $this->resolveClassNamespace(
                                 $this->argument('class')
                             ) ?? config("filterable.filterable_namespace.{$type}")
-                        ), 
-                        true 
+                        ),
+                        true
                     )
-                    ->as( 
+                    ->as(
                         $this->resolveClassName(
-                            $this->argument('class')) 
-                                . ($this->option('no-suffix') ? '' : $this->option("{$type}-suffix")) 
+                            $this->argument('class')
+                        )
+                                . ($this->option('no-suffix') ? '' : $this->option("{$type}-suffix"))
                     )
                     ->withReplacers([
                         'class'                 => $this->resolveClassName($this->argument('class')),
@@ -168,24 +173,25 @@ class FilterGenerator extends Command {
      *
      * @param  string               $stubRelativePath
      * @param  mixed<string|null>   $filters
-     * 
-     * @return string 
+     *
+     * @return string
      */
-    private function generateFilterMethodsFromStub(string $stubRelativePath, ?string $filters = null) {
+    private function generateFilterMethodsFromStub(string $stubRelativePath, ?string $filters = null)
+    {
 
         $filters = array_filter(array_map('trim', explode(',', (string) $filters)));
 
-        if ( empty($filters) ) {
+        if (empty($filters)) {
 
             return '';
         }
 
         $methods = '';
 
-        $stubGenerator = (new StubGenerator)
+        $stubGenerator = (new StubGenerator())
                             ->from($this->generateFullPathOfStubFile($stubRelativePath), true);
 
-        foreach($filters as $filter) {
+        foreach ($filters as $filter) {
 
             $generatedMethod = $stubGenerator
                                     ->withReplacers(['method' => $filter])
@@ -201,21 +207,22 @@ class FilterGenerator extends Command {
     /**
      * Generate the filterable types list as collection that can be generated
      *
-     * @return object<\Illuminate\Support\Collection> 
+     * @return object<\Illuminate\Support\Collection>
      */
-    private function generateableFilters() : Collection {
+    private function generateableFilters(): Collection
+    {
 
-        if ( $this->option('only-query') && !$this->option('only-collection') ) {
+        if ($this->option('only-query') && !$this->option('only-collection')) {
 
             return collect(['query' => true, 'collection' => false]);
         }
 
-        if ( !$this->option('only-query') && $this->option('only-collection') ) {
+        if (!$this->option('only-query') && $this->option('only-collection')) {
 
             return collect(['query' => false, 'collection' => true]);
         }
 
         return collect(['query' => true, 'collection' => true]);
     }
-    
+
 }
