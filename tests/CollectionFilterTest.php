@@ -2,7 +2,7 @@
 
 namespace Touhidurabir\Filterable\Tests;
 
-use Exception;
+use PHPUnit\Framework\Attributes\Test;
 use Orchestra\Testbench\TestCase;
 use Illuminate\Support\Facades\DB;
 use Touhidurabir\Filterable\Tests\App\User;
@@ -12,8 +12,8 @@ use Touhidurabir\Filterable\Tests\Traits\LaravelTestBootstrapping;
 use Touhidurabir\Filterable\Tests\App\CollectionFilters\UserCollectionFilter;
 use Touhidurabir\Filterable\Tests\App\CollectionFilters\ProfileCollectionFilter;
 
-class CollectionFilterTest extends TestCase {
-
+class CollectionFilterTest extends TestCase
+{
     use LaravelTestBootstrapping;
 
     /**
@@ -38,7 +38,8 @@ class CollectionFilterTest extends TestCase {
      *
      * @return void
      */
-    protected function setUp(): void {
+    protected function setUp(): void
+    {
 
         parent::setUp();
 
@@ -54,10 +55,11 @@ class CollectionFilterTest extends TestCase {
      *
      * @return void
      */
-    protected function defineDatabaseMigrations() {
+    protected function defineDatabaseMigrations()
+    {
 
         $this->loadMigrationsFrom(__DIR__ . '/App/database/migrations');
-        
+
         $this->artisan('migrate', ['--database' => 'testbench'])->run();
 
         $this->beforeApplicationDestroyed(function () {
@@ -73,7 +75,8 @@ class CollectionFilterTest extends TestCase {
      * @param  Illuminate\Foundation\Application $app
      * @return void
      */
-    protected function defineEnvironment($app) {
+    protected function defineEnvironment($app)
+    {
 
         // Setup default database to use sqlite :memory:
         $app['config']->set('database.default', 'testbench');
@@ -93,28 +96,32 @@ class CollectionFilterTest extends TestCase {
     /**
      * @test
      */
-    public function the_collection_filter_class_can_be_initialized() {
+    #[Test]
+    public function the_collection_filter_class_can_be_initialized()
+    {
 
-        $this->assertIsObject(new UserCollectionFilter);
-        $this->assertIsObject(new ProfileCollectionFilter);
+        $this->assertIsObject(new UserCollectionFilter());
+        $this->assertIsObject(new ProfileCollectionFilter());
 
-        $this->assertInstanceof(BaseCollectionFilter::class, new UserCollectionFilter);
-        $this->assertInstanceof(BaseCollectionFilter::class, new ProfileCollectionFilter);
+        $this->assertInstanceof(BaseCollectionFilter::class, new UserCollectionFilter());
+        $this->assertInstanceof(BaseCollectionFilter::class, new ProfileCollectionFilter());
     }
 
 
     /**
      * @test
      */
-    public function the_collection_filter_class_can_filter_collection_data() {
+    #[Test]
+    public function the_collection_filter_class_can_filter_collection_data()
+    {
 
-        $users = (new UserCollectionFilter)->filter(User::all(), ['email'=>'testser1@test.test']);
+        $users = (new UserCollectionFilter())->filter(User::all(), ['email' => 'testser1@test.test']);
         $this->assertCount(1, $users);
 
-        $profiles = (new ProfileCollectionFilter)->filter(Profile::all(), ['first_name'=>'TEST']);
+        $profiles = (new ProfileCollectionFilter())->filter(Profile::all(), ['first_name' => 'TEST']);
         $this->assertCount(2, $profiles);
 
-        $profiles = (new ProfileCollectionFilter)->filter(Profile::all(), ['first_name'=>'TEST', 'last_name' => 'User2']);
+        $profiles = (new ProfileCollectionFilter())->filter(Profile::all(), ['first_name' => 'TEST', 'last_name' => 'User2']);
         $this->assertCount(1, $profiles);
     }
 
@@ -122,12 +129,14 @@ class CollectionFilterTest extends TestCase {
     /**
      * @test
      */
-    public function the_collection_filter_class_can_filter_collection_data_via_static_method() {
+    #[Test]
+    public function the_collection_filter_class_can_filter_collection_data_via_static_method()
+    {
 
-        $users = UserCollectionFilter::applyFilter(User::all(), ['email'=>'testser1@test.test']);
+        $users = UserCollectionFilter::applyFilter(User::all(), ['email' => 'testser1@test.test']);
         $this->assertCount(1, $users);
 
-        $profiles = ProfileCollectionFilter::applyFilter(Profile::all(), ['first_name'=>'TEST']);
+        $profiles = ProfileCollectionFilter::applyFilter(Profile::all(), ['first_name' => 'TEST']);
         $this->assertCount(2, $profiles);
     }
 
@@ -135,10 +144,12 @@ class CollectionFilterTest extends TestCase {
     /**
      * @test
      */
-    public function the_collection_filter_class_can_validate_filter_collection_data_before_filtering() {
+    #[Test]
+    public function the_collection_filter_class_can_validate_filter_collection_data_before_filtering()
+    {
 
-        $users = UserCollectionFilter::applyFilter(User::all(), ['email'=>'testser1']);
+        $users = UserCollectionFilter::applyFilter(User::all(), ['email' => 'testser1']);
         $this->assertCount(2, $users);
     }
-    
+
 }

@@ -2,10 +2,10 @@
     /**
      * Filter by request param {{method}}
      *
-     * @param  mixed $value
+     * @param  mixed $value  null when the request value is empty
      * @return object<\Illuminate\Database\Eloquent\Builder>
      */
-    public function {{method}}($value) {
+    public function {{method}}($value = null) {
 
         // return $this->builder-> ;
     }

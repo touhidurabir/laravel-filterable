@@ -6,8 +6,8 @@ use Illuminate\Database\Eloquent\Model;
 use Touhidurabir\Filterable\Filterable;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
-class User extends Model {
-
+class User extends Model
+{
     use SoftDeletes;
 
     use Filterable;

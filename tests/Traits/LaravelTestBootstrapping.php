@@ -4,19 +4,20 @@ namespace Touhidurabir\Filterable\Tests\Traits;
 
 use Touhidurabir\Filterable\FilterableServiceProvider;
 
-trait LaravelTestBootstrapping {
-
+trait LaravelTestBootstrapping
+{
     /**
      * Get package providers.
      *
      * @param  \Illuminate\Foundation\Application  $app
      * @return array
      */
-    protected function getPackageProviders($app) {
+    protected function getPackageProviders($app)
+    {
 
         return [
             FilterableServiceProvider::class,
         ];
-    }   
+    }
 
 }

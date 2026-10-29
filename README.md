@@ -64,17 +64,17 @@ This command also includes several handful options to make the filer class gener
 By passign comma separated filters, it will put those filters as filterable method in both the query and collection filter class as : 
 
 ```bash
-php artisan make:filter User --filter=name,email
+php artisan make:filter User --filters=name,email
 ```
 For Query FIlter : 
 
 ```php
-public function name($value) {
+public function name($value = null) {
 
     // return $this->builder->;
 }
 
-public function email($value) {
+public function email($value = null) {
 
     // return $this->builder->;
 }
@@ -123,7 +123,7 @@ If passed as switch option or flag, will replace the existing file. By defalt if
 Generate the filters as 
 
 ```bash
-php artisan make:filter User --filter=name,email
+php artisan make:filter User --filters=name,email
 ```
 it will generate **UserQueryFilter.php** and **UserCollectionFilter.php** class at the given path as :
 
@@ -155,7 +155,7 @@ class UserQueryFilter extends BaseQueryFilter {
      * @param  mixed $value
      * @return object<\Illuminate\Database\Eloquent\Builder>
      */
-    public function name($value) {
+    public function name($value = null) {
 
         // return $this->builder->;
     }
@@ -167,7 +167,7 @@ class UserQueryFilter extends BaseQueryFilter {
      * @param  mixed $value
      * @return object<\Illuminate\Database\Eloquent\Builder>
      */
-    public function email($value) {
+    public function email($value = null) {
 
         // return $this->builder->;
     }
@@ -283,6 +283,8 @@ protected function getRules() {
 ```
 
 Set the validation rules there and those params that do not pass the validation will not be applied.
+
+> Note that when a filter param is present but empty (e.g. `?name=`), the query filter method is called **without** an argument. That is why the generated query filter methods declare `$value = null`. If you write the methods by hand, give the `$value` parameter a default value too.
 
 ## WHY a Collection Filter ?
 

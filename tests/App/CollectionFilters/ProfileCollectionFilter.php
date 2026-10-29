@@ -2,13 +2,10 @@
 
 namespace Touhidurabir\Filterable\Tests\App\CollectionFilters;
 
-use Throwable;
 use Touhidurabir\Filterable\Bases\BaseCollectionFilter;
-use Illuminate\Support\Collection;
 
-class ProfileCollectionFilter extends BaseCollectionFilter {
-
-    
+class ProfileCollectionFilter extends BaseCollectionFilter
+{
     /**
      * Filter by first_name
      *
@@ -17,7 +14,8 @@ class ProfileCollectionFilter extends BaseCollectionFilter {
      *
      * @return
      */
-    public function first_name($item, $value) {
+    public function first_name($item, $value)
+    {
 
         return strtolower($item->first_name) == strtolower($value);
     }
@@ -31,7 +29,8 @@ class ProfileCollectionFilter extends BaseCollectionFilter {
      *
      * @return
      */
-    public function last_name($item, $value) {
+    public function last_name($item, $value)
+    {
 
         return strtolower($item->last_name) == strtolower($value);
     }

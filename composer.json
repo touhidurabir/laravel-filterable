@@ -22,15 +22,16 @@
     "require": {
         "php": ">=7.4.0",
         "touhidurabir/laravel-stub-generator": "^1.0",
-        "illuminate/support": "^8.60",
-        "illuminate/console": "^8.60",
-        "illuminate/http": "^8.60"
+        "illuminate/support": "^8.60||^9.0||^10.0||^11.0||^12.0||^13.0",
+        "illuminate/console": "^8.60||^9.0||^10.0||^11.0||^12.0||^13.0",
+        "illuminate/http": "^8.60||^9.0||^10.0||^11.0||^12.0||^13.0"
     },
     "require-dev": {
-        "phpunit/phpunit": "^9.5",
-        "orchestra/testbench": "^6.21",
-        "illuminate/container": "^8.60",
-        "illuminate/database": "^8.60"
+        "phpunit/phpunit": "^9.5||^10.0||^11.0||^12.0",
+        "orchestra/testbench": "^6.21||^7.0||^8.0||^9.0||^10.0||^11.0",
+        "illuminate/container": "^8.60||^9.0||^10.0||^11.0||^12.0||^13.0",
+        "illuminate/database": "^8.60||^9.0||^10.0||^11.0||^12.0||^13.0",
+        "laravel/pint": "^1.0"
     },
     "extra": {
         "laravel": {
@@ -38,5 +39,9 @@
                 "Touhidurabir\\Filterable\\FilterableServiceProvider"
             ]
         }
+    },
+    "scripts": {
+        "format": "pint",
+        "lint": "pint --test"
     }
 }

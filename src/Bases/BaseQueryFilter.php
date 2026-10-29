@@ -8,9 +8,10 @@ use Illuminate\Database\Eloquent\Builder;
 use Touhidurabir\Filterable\Concerns\FilterBaseSetup;
 use Touhidurabir\Filterable\Concerns\FilterValidator;
 
-abstract class BaseQueryFilter {
-
-    use FilterBaseSetup, FilterValidator;
+abstract class BaseQueryFilter
+{
+    use FilterBaseSetup;
+    use FilterValidator;
 
     /**
      * The builder instance.
@@ -26,10 +27,11 @@ abstract class BaseQueryFilter {
      * @param  object<\Illuminate\Database\Eloquent\Builder> $builder
      * @return object<\Illuminate\Database\Eloquent\Builder>
      */
-    public function apply(Builder $builder) {
+    public function apply(Builder $builder)
+    {
 
         $this->builder = $builder;
-        
+
         foreach ($this->filters() as $filter => $value) {
 
             if (! method_exists($this, $filter)) {
@@ -37,14 +39,14 @@ abstract class BaseQueryFilter {
                 continue;
             }
 
-            if ( !empty($this->getRules()) && !$this->validateFilter($filter, $value) ) {
+            if (!empty($this->getRules()) && !$this->validateFilter($filter, $value)) {
 
                 continue;
             }
 
             is_array($value)
                 ? $this->$filter($value)
-                : ( strlen($value) ? $this->$filter($value) : $this->$filter() );
+                : (strlen((string) $value) ? $this->$filter($value) : $this->$filter());
         }
 
         return $this->builder;
@@ -56,8 +58,9 @@ abstract class BaseQueryFilter {
      *
      * @return array
      */
-    public function filters() {
-    	
+    public function filters()
+    {
+
         return optional($this->getRequest())->all() ?? [];
     }
 
@@ -67,17 +70,18 @@ abstract class BaseQueryFilter {
      *
      * @return array
      */
-    public function filterables() {
+    public function filterables()
+    {
 
         $filterables = [];
 
         $reflection = new ReflectionClass(get_class($this));
-        
-        foreach ( $reflection->getMethods(ReflectionMethod::IS_PUBLIC) as $method ) {
 
-            if ( $method->class === $reflection->getName() ) {
+        foreach ($reflection->getMethods(ReflectionMethod::IS_PUBLIC) as $method) {
 
-                $filterables[$method->name] = $this->request->get($method->name);
+            if ($method->class === $reflection->getName()) {
+
+                $filterables[$method->name] = $this->getRequest()->get($method->name);
             }
         }
 

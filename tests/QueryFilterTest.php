@@ -2,7 +2,9 @@
 
 namespace Touhidurabir\Filterable\Tests;
 
+use PHPUnit\Framework\Attributes\Test;
 use Exception;
+use Illuminate\Http\Request;
 use Orchestra\Testbench\TestCase;
 use Illuminate\Support\Facades\DB;
 use Touhidurabir\Filterable\Tests\App\User;
@@ -12,8 +14,8 @@ use Touhidurabir\Filterable\Tests\Traits\LaravelTestBootstrapping;
 use Touhidurabir\Filterable\Tests\App\QueryFilters\UserQueryFilter;
 use Touhidurabir\Filterable\Tests\App\QueryFilters\ProfileQueryFilter;
 
-class QueryFilterTest extends TestCase {
-    
+class QueryFilterTest extends TestCase
+{
     use LaravelTestBootstrapping;
 
     /**
@@ -38,7 +40,8 @@ class QueryFilterTest extends TestCase {
      *
      * @return void
      */
-    protected function setUp(): void {
+    protected function setUp(): void
+    {
 
         parent::setUp();
 
@@ -54,10 +57,11 @@ class QueryFilterTest extends TestCase {
      *
      * @return void
      */
-    protected function defineDatabaseMigrations() {
+    protected function defineDatabaseMigrations()
+    {
 
         $this->loadMigrationsFrom(__DIR__ . '/App/database/migrations');
-        
+
         $this->artisan('migrate', ['--database' => 'testbench'])->run();
 
         $this->beforeApplicationDestroyed(function () {
@@ -73,7 +77,8 @@ class QueryFilterTest extends TestCase {
      * @param  Illuminate\Foundation\Application $app
      * @return void
      */
-    protected function defineEnvironment($app) {
+    protected function defineEnvironment($app)
+    {
 
         // Setup default database to use sqlite :memory:
         $app['config']->set('database.default', 'testbench');
@@ -93,25 +98,29 @@ class QueryFilterTest extends TestCase {
     /**
      * @test
      */
-    public function the_query_filter_class_can_be_initialized() {
+    #[Test]
+    public function the_query_filter_class_can_be_initialized()
+    {
 
-        $this->assertIsObject(new UserQueryFilter);
-        $this->assertIsObject(new ProfileQueryFilter);
+        $this->assertIsObject(new UserQueryFilter());
+        $this->assertIsObject(new ProfileQueryFilter());
 
-        $this->assertInstanceof(BaseQueryFilter::class, new UserQueryFilter);
-        $this->assertInstanceof(BaseQueryFilter::class, new ProfileQueryFilter);
+        $this->assertInstanceof(BaseQueryFilter::class, new UserQueryFilter());
+        $this->assertInstanceof(BaseQueryFilter::class, new ProfileQueryFilter());
     }
 
 
     /**
      * @test
      */
-    public function the_query_filter_class_can_filter_data() {
+    #[Test]
+    public function the_query_filter_class_can_filter_data()
+    {
 
-        $users = User::filter( UserQueryFilter::hydrate(['email'=>'testser1@test.test']) )->get();
+        $users = User::filter(UserQueryFilter::hydrate(['email' => 'testser1@test.test']))->get();
         $this->assertCount(1, $users);
 
-        $users = User::filter( UserQueryFilter::hydrate(['name'=>'Test']) )->get();
+        $users = User::filter(UserQueryFilter::hydrate(['name' => 'Test']))->get();
         $this->assertCount(2, $users);
 
         $profiles = Profile::filter(ProfileQueryFilter::hydrate(['first_name' => 'Test']))->get();
@@ -125,9 +134,11 @@ class QueryFilterTest extends TestCase {
     /**
      * @test
      */
-    public function the_query_filter_class_can_validate_filter_data_before_filtering() {
+    #[Test]
+    public function the_query_filter_class_can_validate_filter_data_before_filtering()
+    {
 
-        $users = User::filter( UserQueryFilter::hydrate(['email'=>'testser1']) )->get();
+        $users = User::filter(UserQueryFilter::hydrate(['email' => 'testser1']))->get();
         $this->assertCount(2, $users);
     }
 
@@ -135,11 +146,29 @@ class QueryFilterTest extends TestCase {
     /**
      * @test
      */
-    public function it_will_throw_exception_if_wrong_filter_instance_given() {
+    #[Test]
+    public function it_will_throw_exception_if_wrong_filter_instance_given()
+    {
 
         $this->expectException(Exception::class);
 
-        $users = User::filter( new class {} )->get();
+        $users = User::filter(new class () {})->get();
     }
-    
+
+
+    /**
+     * @test
+     */
+    #[Test]
+    public function filterables_resolves_the_request_when_none_was_injected()
+    {
+
+        $this->app->instance('request', Request::create('/users', 'GET', ['name' => 'Test']));
+
+        $this->assertSame(
+            ['name' => 'Test', 'email' => null],
+            (new UserQueryFilter())->filterables()
+        );
+    }
+
 }
